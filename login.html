@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue App - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div id="app">
+        <!-- Consistent Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="index.html">VueApp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="sales.html">Sales</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="login.html">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <!-- Login Form -->
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <h4 class="card-title text-center mb-4">Secure Login</h4>
+                            <form @submit.prevent="handleLogin">
+                                <div class="mb-3">
+                                    <label class="form-label">Email address</label>
+                                    <input type="email" v-model="credentials.email" class="form-control" placeholder="name@example.com" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" v-model="credentials.password" class="form-control" required>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Sign In</button>
+                                </div>
+                                <p class="text-center mt-3 mb-0">Don't have an account? <a href="register.html">Register here</a></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- Relevant Table: Account Tiers -->
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Account Tiers & Benefits</h5>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Tier</th>
+                                            <th>Max Products</th>
+                                            <th>Support</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Basic</td><td>50</td><td>Email</td></tr>
+                                        <tr><td>Pro</td><td>500</td><td>24/7 Chat</td></tr>
+                                        <tr><td>Enterprise</td><td>Unlimited</td><td>Dedicated</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    credentials: { email: '', password: '' }
+                }
+            },
+            methods: {
+                handleLogin() {
+                    alert(`Logging in with: ${this.credentials.email}`);
+                    // In a real app, this would trigger an API call
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

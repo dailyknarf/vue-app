@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        {{ external }}<br>
+        {{ intro }} <br>
+
+        <form @submit.prevent="save_name">
+            <label for="first_name">First Name:</label>
+            <input type="text" v-model="form.first_name">
+            <label for="last_name">Last Name:</label>
+            <input type="text" v-model="form.last_name">
+            <button type="submit">Save</button>
+            
+        </form>
+
+        <br><br>
+        <table border="1">
+            <thead>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>    
+                    <th>Close</th>
+                    <th>Volume</th>
+            </thead>
+            <tbody>
+                <tr v-for="stock in ibm_data">
+                    <td>{{ stock["1. open"] }}</td>
+                    <td>{{ stock["2. high"] }}</td>
+                    <td>{{ stock["3. low"] }}</td>
+                    <td>{{ stock["4. close"] }}</td>
+                    <td>{{ stock["5. volume"] }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.0/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.js"></script>
+    <script>
+        new Vue({
+            el : "#app",
+            data : {
+                external : "Testing APIS",
+                intro : "Welcome to APIs",
+                ibm_data : [],
+                form:{
+                    first_name : "",
+                    last_name : ""
+                }
+            },
+            methods : {
+                intro_methods(){
+                    this.intro = "Update by methods"
+                },
+
+                async ibm_stock_call(){
+                    // Make an Asyncronous Request
+                    const results = await axios.get("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo")
+                    console.log(results.data["Time Series (5min)"])
+                    this.ibm_data = results.data["Time Series (5min)"]
+                },
+
+
+                save_name(){
+                    console.log("first_name ", this.form.first_name);
+                    console.log("last_name ", this.form.last_name);
+                }
+
+            },
+            mounted(){
+                this.intro_methods();
+                this.ibm_stock_call();
+            }
+                
+        });
+    </script>
+</body>
+</html>

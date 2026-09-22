@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue App - Dashboard</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div id="app">
+        <!-- Consistent Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="index.html">VueApp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="sales.html">Sales</a></li>
+                        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <h2 class="mb-4">Dashboard Overview</h2>
+            
+            <!-- Quick Search Form -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Search</h5>
+                    <form @submit.prevent="searchActivity" class="row g-3">
+                        <div class="col-md-8">
+                            <input type="text" v-model="searchQuery" class="form-control" placeholder="Search recent activity...">
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary w-100">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Recent Activity Table -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Activity</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Activity</th>
+                                    <th>User</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in filteredActivity" :key="item.id">
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.activity }}</td>
+                                    <td>{{ item.user }}</td>
+                                    <td><span class="badge" :class="item.status === 'Success' ? 'bg-success' : 'bg-warning'">{{ item.status }}</span></td>
+                                    <td>{{ item.date }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS & Vue 3 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    searchQuery: '',
+                    activityLog: [
+                        { id: 1, activity: 'New Product Added', user: 'Admin', status: 'Success', date: '2023-10-25' },
+                        { id: 2, activity: 'Sale Recorded', user: 'John Doe', status: 'Success', date: '2023-10-24' },
+                        { id: 3, activity: 'Login Failed', user: 'Unknown', status: 'Failed', date: '2023-10-24' },
+                        { id: 4, activity: 'Inventory Updated', user: 'Admin', status: 'Success', date: '2023-10-23' }
+                    ]
+                }
+            },
+            computed: {
+                filteredActivity() {
+                    if (!this.searchQuery) return this.activityLog;
+                    return this.activityLog.filter(item => 
+                        item.activity.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        item.user.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    );
+                }
+            },
+            methods: {
+                searchActivity() {
+                    alert('Searching for: ' + this.searchQuery);
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
