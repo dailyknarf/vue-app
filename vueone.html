@@ -18,7 +18,9 @@
             <input type="text" v-model="form.last_name">
             <button type="submit">Save</button>
             
-        </form>
+        </form>  <br>
+
+        <h1>Full Name: {{ full_name }}</h1>
 
         <br><br>
         <table border="1">
@@ -54,7 +56,8 @@
                 form:{
                     first_name : "",
                     last_name : ""
-                }
+                },
+                full_name : ""
             },
             methods : {
                 intro_methods(){
@@ -72,12 +75,25 @@
                 save_name(){
                     console.log("first_name ", this.form.first_name);
                     console.log("last_name ", this.form.last_name);
+
+                    localStorage.setItem("first_name", this.form.first_name);
+                    localStorage.setItem("last_name", this.form.last_name);
+
+                    this.form.first_name = "";
+                    this.form.last_name = "";
+
+                    this.full_name = localStorage.getItem("first_name") + " " + localStorage.getItem("last_name");
+
+                    window.location.reload();
+
+
                 }
 
             },
             mounted(){
                 this.intro_methods();
                 this.ibm_stock_call();
+                this.full_name = localStorage.getItem("first_name") + " " + localStorage.getItem("last_name");
             }
                 
         });
